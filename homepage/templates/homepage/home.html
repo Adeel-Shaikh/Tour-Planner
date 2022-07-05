@@ -1,0 +1,70 @@
+{% extends 'homepage/index.html'%}
+
+{% block content%}
+<script>
+    $( function() {
+      var availableTags = [
+      'Mumbai'
+      ];
+      $( "#tags" ).autocomplete({
+        source: availableTags
+      });
+    } );
+  </script>
+  <style>
+    body{
+      overflow: hidden;
+    }
+    .video-container{
+      width: 100vw;
+      height: 100vh;
+    }
+        
+    iframe {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100vw;
+      height: 100vh;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    @media (min-aspect-ratio: 16/9) {
+      .video-container iframe {
+        /* height = 100 * (9 / 16) = 56.25 */
+        height: 56.25vw;
+      }
+    }
+        
+    @media (max-aspect-ratio: 16/9) {
+      .video-container iframe {
+        /* width = 100 / (9 / 16) = 177.777777 */
+        width: 177.78vh;
+      }
+    }
+    #text{
+      position: absolute;
+      color: #FFFFFF;
+      top: 10%;
+    }
+    #tags{
+      margin:10px 500px;
+      width:40%;
+      padding:10px 20px;
+      font-size:28px;
+      background-color:#ffffff56;
+      color:#1e1e1e;
+    }
+  </style>
+<!-- <h3>Plan your trips with us</h3><h1> LOL!!</h1> -->
+<div class="video-container">
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/35npVaFGHMY?&autoplay=1&mute=1&loop=1"></iframe>
+</div>
+<form action="{% url 'search-result' %}" method="get" id="text">
+  <h1 style="margin-top:160px;margin-left:590px;font-size:34px">Plan Your Trip with Us!</h1>
+    <input id="tags" name="q" type="text"  class="form-control" placeholder="Search...">
+</form>
+
+
+
+{%endblock%}

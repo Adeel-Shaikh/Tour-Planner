@@ -1,0 +1,141 @@
+{%extends 'homepage/index.html' %}
+
+{%block content%}
+<style>
+    .last::before{
+        background-color: rgb(255, 251, 251);
+        width: 2px;
+        content: '';
+        position: absolute;
+        top: 20px;
+        bottom: 0px;
+        left: 27px;
+        margin-bottom: 10px;
+    }
+    li:before {
+        background-color: rgb(192, 192, 192);
+        width: 2px;
+        content: '';
+        position: absolute;
+        top: 20px;
+        bottom: 0px;
+        left: 27px;
+        margin-bottom: 10px;
+      }
+      li {
+        position: relative;
+        margin: 0;
+        padding-bottom: 2.5em;
+        padding-left: 20px;
+        list-style: none;
+        display: flex;
+      }
+      .start-date{
+          background-color: #f0F1F1;
+          width: 170px;
+          padding: 10px 20px;
+          border-radius: 25px;
+          z-index: 1;
+          position: relative;
+          left: -70px;
+      }
+      .header-name{
+          font-size: 28px;
+          position: relative;
+          left: -40px;
+          top:-10px;
+          
+      }
+      .card-style{
+          position: relative;
+          left:-70px;
+      }
+      .time-holder{
+          margin:20px 50px;
+          color: rgb(118, 118, 118);
+          font-size: 14px;
+          font-weight: 300;
+      }
+      h1{
+          text-align: center;
+          padding: 50px 0px;
+      }
+      .more-places{
+          padding: 5px 50px;
+          border-radius: 15px;
+          position: absolute;
+          top:-10px;
+          left:120px;
+      }
+</style>
+    <h1>Route</h1>
+    <form action="#" method="get">
+        <div class="form-group" style="margin:10px 200px;display: flex;">
+            <div style="display:flex;flex-direction:column;padding:0px 10px">
+                <label for="exampleFormControlSelect1">Select Starting Point</label>
+                <select class="form-control" id="strtpnt" name="start">
+                    <option disabled selected value> -- select an option -- </option>
+                    {% for i,j in start_point_options%}
+                        
+                        <option value={{i}}>{{j.countries}}</option>
+                    {%endfor%}
+                </select>
+            </div>
+            <div style="display: flex;flex-direction:column;padding:0px 10px">
+                <label for="dot">Date:</label>
+                <input  class="form-control" type="date" id="dot" name="date">
+            </div>
+            <div style="display: flex;flex-direction:column;padding:0px 10px">
+                <br>
+                <button class="btn btn-outline-warning" style="padding:-50px 30px">Get Path</button>
+            </div>
+        </div> 
+            
+            
+    </form>
+    
+    <div style="margin:25px 250px;display:flex;flex-direction:row">
+        
+        <ul>
+            {% if day == "" %}
+            {%else%}
+            <li>
+                <h5 class="start-date">{{day}}</h5>
+            </li>
+            <li>
+                <h5 class="header-name">{{header}}</h5> 
+                <a href="{%url 'list-of-places'%}" class="btn btn-dark more-places" style="padding:-50px 30px">Explore</a>
+            </li> 
+            {%endif%}
+            {% for path,car_time,explore_time in full_key%}
+            <li >
+                <div class="card card-style" style="width: 55rem;display:flex;flex-direction:row;border-radius:20px;z-index:2;box-shadow:0 2px 9px rgb(0 0 0 / 15%); ">
+                    <div class="time-holder">
+                        {% for i in explore_time%}
+                            <span>{{i}}</span>
+                        {%endfor%}
+
+                    </div>
+                    <img class="card-img-top" style="width:300px;object-fit:contain;padding:10px" src="{{path.image_url2}}" alt="Card image cap">
+                    <div class="card-body">
+                      <h5 class="card-title">{{path.countries}}</h5>
+                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                      <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+                
+            </li>
+            <li>
+                <i class="fa-solid fa-car" style="margin-bottom:0px"></i><span style="padding-left:10px;font-size:14px;color:rgb(118, 118, 118)"> {{car_time}} mins</span>
+            </li>
+            {%endfor%}
+            {% if day == "" %}
+            {%else%}
+            <li class="last">
+                <h5 class="start-date">End</h5>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+    
+{%endblock%}
